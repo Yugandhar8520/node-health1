@@ -1,0 +1,17 @@
+#!/bin/bash
+###########
+#author = yugi
+#date= 9march
+#
+#for node health
+#
+#version; v1
+#####################
+set -x #debug mode
+set -e #error
+set -o #pipefail
+
+df -h
+free -g
+nproc
+ps -ef |grep init |awk -F" " '{print $2}'
