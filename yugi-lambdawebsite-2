@@ -1,0 +1,34 @@
+import boto3
+import base64
+import uuid
+
+s3 = boto3.client('s3')
+
+BUCKET_NAME = "yugi-website-1"
+
+def lambda_handler(event, context):
+
+    body = event['body']
+
+    # Handle base64 encoding from API Gateway
+    if event.get("isBase64Encoded", False):
+        image_data = base64.b64decode(body)
+    else:
+        image_data = base64.b64decode(body)
+
+    filename = str(uuid.uuid4()) + ".jpg"
+
+    s3.put_object(
+        Bucket=BUCKET_NAME,
+        Key=filename,
+        Body=image_data,
+        ContentType="image/jpeg"
+    )
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Access-Control-Allow-Origin": "*"
+        },
+        "body": "Upload successful"
+    }
