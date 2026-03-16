@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Upload</title>
+</head>
+
+<body>
+
+<h2>Upload Image</h2>
+
+<input type="file" id="imageFile">
+<br><br>
+
+<button onclick="uploadImage()">Upload</button>
+
+<script>
+
+const uploadAPI = "https://bt8hh3b4zl.execute-api.eu-north-1.amazonaws.com/yugi/store"
+
+async function uploadImage(){
+
+const file = document.getElementById("imageFile").files[0]
+
+const reader = new FileReader()
+
+reader.onload = async function(){
+
+const base64 = reader.result.split(',')[1]
+
+await fetch(uploadAPI,{
+method:"POST",
+body:base64
+})
+
+alert("Image uploaded successfully")
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+</script>
+
+</body>
+</html>
