@@ -1,0 +1,19 @@
+from app import app
+import json
+
+def test_home():
+    client = app.test_client()
+    response = client.get('/')
+    assert response.status_code == 200
+
+
+def test_calculate():
+    client = app.test_client()
+
+    response = client.post('/calculate',
+        data=json.dumps({"expression": "2+3"}),
+        content_type='application/json'
+    )
+
+    data = response.get_json()
+    assert data['result'] == '5'
